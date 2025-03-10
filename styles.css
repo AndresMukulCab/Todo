@@ -1,0 +1,68 @@
+
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+
+#task-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.task-item.complete {
+    background-color: #f8f9fa;
+    text-decoration: line-through;
+    color: #6c757d;
+}
+
+.task-item:hover {
+    background-color: #f1f1f1;
+}
+
+.task-item span {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.task-item button {
+    margin-left: 5px;
+}
+
+
+.btn-action {
+    min-width: 100px;
+}
+
+
+.card {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+
+#task-input {
+    border-radius: 5px 0 0 5px;
+}
+
+
+#add-task-btn {
+    border-radius: 0 5px 5px 0;
+}
+
+
+#task-controls .btn {
+    width: 100%;
+    margin-bottom: 5px;
+}

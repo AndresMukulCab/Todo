@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const todoItem_1 = require("./todoItem");
+
 class TodoCollection {
     constructor(userName, todoItems = []) {
         this.userName = userName;
@@ -12,7 +10,7 @@ class TodoCollection {
         while (this.getTodoById(this.nextId)) {
             this.nextId++;
         }
-        this.itemMap.set(this.nextId, new todoItem_1.TodoItem(this.nextId, task));
+        this.itemMap.set(this.nextId, new TodoItem(this.nextId, task));
         return this.nextId;
     }
     getTodoById(id) {
@@ -42,4 +40,3 @@ class TodoCollection {
         };
     }
 }
-exports.TodoCollection = TodoCollection;

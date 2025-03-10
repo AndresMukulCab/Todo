@@ -1,38 +1,26 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const todoItem_1 = require("./todoItem");
-const todoCollection_1 = require("./todoCollection");
-const lowdb = require("lowdb");
-const FileSync = require("lowdb/adapters/FileSync");
-class JsonTodoCollection extends todoCollection_1.TodoCollection {
+class JsonTodoCollection extends TodoCollection {
     constructor(userName, todoItems = []) {
         super(userName, []);
         this.userName = userName;
-        this.database = lowdb(new FileSync("Todos.json"));
-        if (this.database.has("tasks").value()) {
-            let dbItems = this.database.get("tasks").value();
-            dbItems.forEach(item => this.itemMap.set(item.id, new todoItem_1.TodoItem(item.id, item.task, item.complete)));
+        this.storageKey = `todos-${userName}`;
+
+        // local storage
+        const storedTasks = localStorage.getItem(this.storageKey);
+        if (storedTasks) {
+            const dbItems = JSON.parse(storedTasks);
+            dbItems.forEach(item => this.itemMap.set(item.id, new TodoItem(item.id, item.task, item.complete)));
+        } else {
+          
+            todoItems.forEach(item => this.itemMap.set(item.id, new TodoItem(item.id, item.task, item.complete)));
+            this.storeTasks();
         }
-        else {
-            this.database.set("tasks", todoItems).write();
-            todoItems.forEach(item => this.itemMap.set(item.id, item));
-        }
     }
-    addTodo(task) {
-        let result = super.addTodo(task);
-        this.storeTasks();
-        return result;
-    }
-    markComplete(id, complete) {
-        super.markComplete(id, complete);
-        this.storeTasks();
-    }
-    removeComplete() {
-        super.removeComplete();
-        this.storeTasks();
-    }
+
+    // guardado
     storeTasks() {
-        this.database.set("tasks", [...this.itemMap.values()]).write();
+        const tasks = [...this.itemMap.values()];
+        localStorage.setItem(this.storageKey, JSON.stringify(tasks));
     }
+
+   
 }
-exports.JsonTodoCollection = JsonTodoCollection;
